@@ -1,11 +1,12 @@
 var webpack = require("webpack");
+var path = require("path");
 
 module.exports = {
   entry: [
-    './src/index.js'
+    './src/index'
   ],
   output: {
-    path: __dirname,
+    path: path.resolve(__dirname, "build"),
     publicPath: '/',
     filename: 'bundle.js'
   },
@@ -17,15 +18,5 @@ module.exports = {
         exclude: /node_modules/
       }
     ]
-  },
-  plugins: [
-    new webpack.optimize.UglifyJsPlugin({
-        compress: {
-            warnings: false,
-        },
-        output: {
-            comments: false,
-        },
-    }),
-  ]
+  }
 };
