@@ -58,5 +58,7 @@ gulp.task("dev", ["style"], function(callback) {
  .listen(process.env.PORT, process.env.IP, function(err) {
     if (err) throw new gutil.PluginError("webpack-dev-server", err);
     gutil.log("[webpack-dev-server]", "http://" + process.env.IP + ":" + process.env.PORT + "/webpack-dev-server/index.html");
+
+    gulp.watch('src/sass/**/*.scss', ["style"]);
  });
 });
