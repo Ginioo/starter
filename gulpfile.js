@@ -2,8 +2,8 @@ var gulp = require("gulp");
 var gutil = require("gulp-util");
 var sass = require('gulp-sass');
 var uglify = require('gulp-uglify');
-var webpack = require("webpack");
 var del = require('del');
+var webpack = require("webpack");
 
 var webpackConfig = Object.create(require("./webpack.config.js"));
 
@@ -28,7 +28,7 @@ gulp.task("webpack", function(callback) {
 });
 
 gulp.task("style", function(callback) {
-  gulp.src('sass/**/*.scss')
+  gulp.src('src/sass/**/*.scss')
     .pipe(sass().on('error', sass.logError))
     .pipe(gulp.dest('public/assets/css'));
 
@@ -42,4 +42,21 @@ gulp.task("build", ["clean", "webpack", "style"], function(callback) {
 
   gutil.log("[build]", 'successfully');
   callback();
+});
+
+var WebpackDevServer = require("webpack-dev-server");
+gulp.task("dev", ["style"], function(callback) {
+  // modify some webpack config options
+
+ webpackConfig.devtool = "eval";
+ webpackConfig.debug = true;
+ // Start a webpack-dev-server
+ new WebpackDevServer(webpack(webpackConfig), {
+   publicPath: webpackConfig.output.publicPath,
+   stats: {colors: true}
+ })
+ .listen(process.env.PORT, process.env.IP, function(err) {
+    if (err) throw new gutil.PluginError("webpack-dev-server", err);
+    gutil.log("[webpack-dev-server]", "http://" + process.env.IP + ":" + process.env.PORT + "/webpack-dev-server/index.html");
+ });
 });
