@@ -18,8 +18,11 @@
     "babel-preset-react": "^6.11.1",
     "del": "^2.2.2",
     "gulp": "^3.9.1",
+<<<<<<< HEAD
     "gulp-git": "^1.11.2",
     "gulp-sass": "^2.3.2",
+=======
+>>>>>>> b49fcde9813087e1fdfc54bc52110bda95134000
     "gulp-uglify": "^2.0.0",
     "gulp-util": "^3.0.7",
     "react": "^15.3.1",
