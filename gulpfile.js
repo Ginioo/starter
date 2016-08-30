@@ -10,10 +10,11 @@ var _ = require('lodash');
 
 var webpackConfig = Object.create(require("./webpack.config.js"));
 
+var appPath = './';
+
 gulp.task('clean', function(callback) {
   del([
     'build',
-    'local',
     '.htaccess',
     'index.css',
     'bundle.js',
@@ -37,7 +38,7 @@ gulp.task("webpack", function(callback) {
 gulp.task("style", function(callback) {
   gulp.src('src/sass/**/*.scss')
     .pipe(sass().on('error', sass.logError))
-    .pipe(gulp.dest('local'));
+    .pipe(gulp.dest(appPath));
 
   callback();
 });
@@ -45,14 +46,14 @@ gulp.task("style", function(callback) {
 gulp.task("build", ["clean", "webpack", "style"], function(callback) {
   gulp.src('build/**/*.js')
     .pipe(uglify())
-    .pipe(gulp.dest('local'));
+    .pipe(gulp.dest(appPath));
 
   gulp.src('build/**/*.html')
-    .pipe(gulp.dest('local'));
+    .pipe(gulp.dest(appPath));
 
   const htaccessTemplate = fs.readFileSync(path.join(__dirname, 'templates', '.htaccess')).toString();
   const htaccess = _.template(htaccessTemplate)({REWRITE_BASE: webpackConfig.output.publicPath});
-  fs.writeFile(path.join(__dirname, 'local', '.htaccess'), htaccess);
+  fs.writeFile(path.join(__dirname, appPath, '.htaccess'), htaccess);
 
   gutil.log("[build]", 'successfully');
   callback();
