@@ -3,7 +3,7 @@ var path = require("path");
 
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 
-var publicPath = '/starter/';
+var publicPath = '/starter/local/';
 
 module.exports = {
   entry: [
