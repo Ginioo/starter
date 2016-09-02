@@ -34,7 +34,7 @@ exports.devServer = function(options) {
       })
     ]
   };
-}
+};
 
 exports.setupCSS = function(paths) {
   return {
@@ -48,7 +48,7 @@ exports.setupCSS = function(paths) {
       ]
     }
   };
-}
+};
 
 exports.setupBabel = function() {
   return {
@@ -62,4 +62,16 @@ exports.setupBabel = function() {
       ]
     }
   };
-}
+};
+
+exports.minify = function() {
+  return {
+    plugins: [
+      new webpack.optimize.UglifyJsPlugin({
+        compress: {
+          warnings: false
+        }
+      })
+    ]
+  };
+};

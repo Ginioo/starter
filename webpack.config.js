@@ -45,6 +45,10 @@ switch(process.env.npm_lifecycle_event) {
   case "build":
     config = merge(
       common,
+      {
+        devtool: 'source-map'
+      },
+      parts.minify(),
       parts.setupCSS(PATHS.appStyle),
       parts.setupBabel()
     );
@@ -52,6 +56,9 @@ switch(process.env.npm_lifecycle_event) {
   default:
     config = merge(
       common,
+      {
+        devtool: 'eval-source-map'
+      },
       parts.setupCSS(PATHS.appStyle),
       parts.setupBabel(),
       parts.devServer({
@@ -61,5 +68,5 @@ switch(process.env.npm_lifecycle_event) {
       })
     );
 }
-console.log(config.module);
+
 module.exports = validate(config);
