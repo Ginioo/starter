@@ -36,7 +36,7 @@ gulp.task("webpack", function(callback) {
 });
 
 gulp.task("style", function(callback) {
-  gulp.src('src/sass/**/*.scss')
+  gulp.src('src/style/**/*.scss')
     .pipe(sass().on('error', sass.logError))
     .pipe(gulp.dest(appPath));
 
