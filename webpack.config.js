@@ -34,16 +34,7 @@ const common = {
       hash: true,
       cache: true
     })
-  ],
-  module: {
-    loaders: [
-      {
-        test: /\.(js|jsx)$/,
-        loader: "babel-loader",
-        exclude: /node_modules/
-      }
-    ]
-  }
+  ]
 };
 
 var config;
@@ -51,14 +42,20 @@ var config;
 // Detect how npm is run and branch based on that
 switch(process.env.npm_lifecycle_event) {
   case "build":
-    config = merge(common, {});
+    config = merge(
+      common,
+      parts.setupCSS(PATHS.app),
+      parts.setupBabel()
+    );
     break;
   default:
     config = merge(
       common,
+      parts.setupCSS(PATHS.app),
+      parts.setupBabel(),
       parts.devServer({
         // Customize host/port here if needed
-        host: process.env.HOST,
+        host: process.env.IP,
         port: process.env.PORT
       })
     );

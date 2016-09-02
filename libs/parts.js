@@ -35,3 +35,31 @@ exports.devServer = function(options) {
     ]
   };
 }
+
+exports.setupCSS = function(paths) {
+  return {
+    module: {
+      loaders: [
+        {
+          test: /\.css$/,
+          loaders: ['style', 'css'],
+          include: paths
+        }
+      ]
+    }
+  };
+}
+
+exports.setupBabel = function() {
+  return {
+    module: {
+      loaders: [
+        {
+          test: /\.(js|jsx)$/,
+          loader: "babel",
+          exclude: /node_modules/
+        }
+      ]
+    }
+  };
+}
