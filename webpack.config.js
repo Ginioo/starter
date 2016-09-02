@@ -4,6 +4,8 @@ const validate = require("webpack-validator");
 
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
+const parts = require('./libs/parts');
+
 const PATHS = {
   app: path.join(__dirname, "src", "index"),
   build: path.join(__dirname, "build"),
@@ -52,7 +54,14 @@ switch(process.env.npm_lifecycle_event) {
     config = merge(common, {});
     break;
   default:
-    config = merge(common, {});
+    config = merge(
+      common,
+      parts.devServer({
+        // Customize host/port here if needed
+        host: process.env.HOST,
+        port: process.env.PORT
+      })
+    );
 }
 
 module.exports = validate(config);
