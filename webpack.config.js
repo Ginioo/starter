@@ -4,6 +4,7 @@ const validate = require("webpack-validator");
 
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
+const pkg = require('./package.json');
 const parts = require('./libs/parts');
 
 const PATHS = {
@@ -18,7 +19,8 @@ const common = {
   // We"ll be using the latter form given it"s
   // convenient with more complex configurations.
   entry: {
-    app: PATHS.app
+    app: PATHS.app,
+    vendor: pkg.dependencies ? Object.keys(pkg.dependencies) : []
   },
   output: {
     path: PATHS.build,
