@@ -23,7 +23,7 @@ exports.devServer = function(options) {
       //
       // 0.0.0.0 is available to all network devices
       // unlike default `localhost`.
-      host: options.host, // Defaults to `localhost`
+      host: options.host || '0.0.0.0', // Defaults to `localhost`
       port: options.port // Defaults to 8080
     },
     plugins: [
@@ -55,9 +55,9 @@ exports.setupBabel = function() {
     module: {
       loaders: [
         {
-          test: /\.(js|jsx)$/,
-          loader: "babel",
-          exclude: /node_modules/
+          test: /\.js$/,
+          exclude: /node_modules/,
+          loader: "babel-loader"
         }
       ]
     }

@@ -65,8 +65,8 @@ switch(process.env.npm_lifecycle_event) {
       parts.setupBabel(),
       parts.devServer({
         // Customize host/port here if needed
-        host: process.env.IP,
-        port: process.env.PORT
+        host: 'localhost',
+        port: 8080
       })
     );
 }

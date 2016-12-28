@@ -70,9 +70,9 @@ gulp.task("dev", ["style"], function(callback) {
    publicPath: webpackConfig.output.publicPath,
    stats: {colors: true}
   })
-  .listen(process.env.PORT, process.env.IP, function(err) {
+  .listen(webpackConfig.devServer.port, webpackConfig.devServer.host, function(err) {
     if (err) throw new gutil.PluginError("webpack-dev-server", err);
-    gutil.log("[webpack-dev-server]", "http://" + process.env.IP + ":" + process.env.PORT + "/webpack-dev-server" + webpackConfig.output.publicPath + "index.html");
+    gutil.log("[webpack-dev-server]", "http://" + webpackConfig.devServer.host + ":" + webpackConfig.devServer.port + "/webpack-dev-server" + webpackConfig.output.publicPath + "index.html");
 
     gulp.watch('src/sass/**/*.scss', ["style"]);
   });
