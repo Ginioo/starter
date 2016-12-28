@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
+import styles from '../style/index.scss';
 
 export default class App extends Component {
   render() {
     return (
-      <div className="test">
+      <div className={styles.test}>
         Sample
       </div>
     );
