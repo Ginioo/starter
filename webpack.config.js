@@ -1,17 +1,17 @@
-const path = require("path");
-const merge = require("webpack-merge");
-const validate = require("webpack-validator");
+const path = require('path');
+const merge = require('webpack-merge');
+const validate = require('webpack-validator');
 
-const HtmlWebpackPlugin = require("html-webpack-plugin");
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const pkg = require('./package.json');
 const parts = require('./libs/parts');
 
 const PATHS = {
-  app: path.join(__dirname, "src", "index"),
-  appStyle: path.join(__dirname, "src", "style"),
-  build: path.join(__dirname, "build"),
-  baseHref: "/starter/"
+  app: path.join(__dirname, 'src', 'index'),
+  appStyle: path.join(__dirname, 'src', 'style'),
+  build: path.join(__dirname, 'build'),
+  baseHref: '/starter/'
 };
 
 const common = {
@@ -24,15 +24,15 @@ const common = {
   },
   output: {
     path: PATHS.build,
-    filename: "[name].js",
+    filename: '[name].js',
     publicPath: PATHS.baseHref
   },
   plugins: [
     new HtmlWebpackPlugin({
-      title: "Starter",
+      title: 'Starter',
       baseHref: PATHS.baseHref,
-      filename: "index.html",
-      template: "templates/index.html",
+      filename: 'index.html',
+      template: 'templates/index.html',
       minify: false,
       hash: true,
       cache: true
@@ -44,7 +44,7 @@ var config;
 
 // Detect how npm is run and branch based on that
 switch(process.env.npm_lifecycle_event) {
-  case "build":
+  case 'build':
     config = merge(
       common,
       {

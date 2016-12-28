@@ -35,6 +35,6 @@
     "webpack": "^1.14.0",
     "webpack-dev-server": "^1.15.0",
     "webpack-merge": "^0.14.1",
-    "webpack-validator": "^2.2.7"
+    "webpack-validator": "^2.3.0"
   }
 }
