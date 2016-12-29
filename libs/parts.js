@@ -64,6 +64,17 @@ exports.setupBabel = function() {
   };
 };
 
+exports.setEnvironmentVariable = function (key, value) {
+    const env = {};
+    env[key] = JSON.stringify(value);
+
+    return {
+        plugin: [
+            new DefinePlugin(env)
+        ]
+    };
+};
+
 exports.minify = function() {
   return {
     plugins: [
@@ -96,7 +107,7 @@ exports.minify = function() {
       })
     ]
   };
-}
+};
 
 exports.extractBundle = function(options) {
   const entry = {};
@@ -113,4 +124,4 @@ exports.extractBundle = function(options) {
       })
     ]
   };
-}
+};
