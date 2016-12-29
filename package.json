@@ -6,8 +6,7 @@
   "repository": "",
   "scripts": {
     "start": "gulp dev",
-    "dev": "webpack-dev-server",
-    "build": "webpack",
+    "build": "gulp build",
     "clean": "gulp clean"
   },
   "author": "Gino",

@@ -19,8 +19,7 @@ const common = {
   // We'll be using the latter form given it's
   // convenient with more complex configurations.
   entry: {
-    app: PATHS.app,
-    vendor: pkg.dependencies ? Object.keys(pkg.dependencies) : []
+    app: PATHS.app
   },
   output: {
     path: PATHS.build,
@@ -43,7 +42,7 @@ const common = {
 var config;
 
 // Detect how npm is run and branch based on that
-switch(process.env.npm_lifecycle_event) {
+switch (process.env.npm_lifecycle_event) {
   case 'build':
     config = merge(
       common,
@@ -51,6 +50,10 @@ switch(process.env.npm_lifecycle_event) {
         devtool: 'source-map'
       },
       // parts.setEnvironmentVariable('process.env.NODE_ENV', 'production'),
+      parts.extractBundle({
+        name: 'vendor',
+        entries: ['react']
+      }),
       parts.minify(),
       parts.setupCSS(PATHS.appStyle),
       parts.setupBabel()
@@ -62,6 +65,10 @@ switch(process.env.npm_lifecycle_event) {
       {
         devtool: 'eval-source-map'
       },
+      parts.extractBundle({
+        name: 'vendor',
+        entries: ['react', 'react-dom']
+      }),
       parts.setupCSS(PATHS.appStyle),
       parts.setupBabel(),
       parts.devServer({

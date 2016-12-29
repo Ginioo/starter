@@ -18,7 +18,10 @@ gulp.task('clean', function(callback) {
     '.htaccess',
     'index.css',
     'bundle.js',
-    'index.html'
+    'index.html',
+    'app.js',
+    'manifest.js',
+    'vendor.js'
   ]);
   callback();
 });
@@ -35,15 +38,7 @@ gulp.task("webpack", function(callback) {
   });
 });
 
-gulp.task("style", function(callback) {
-  gulp.src('src/style/**/*.scss')
-    .pipe(sass().on('error', sass.logError))
-    .pipe(gulp.dest(appPath));
-
-  callback();
-});
-
-gulp.task("build", ["clean", "webpack", "style"], function(callback) {
+gulp.task("build", ["clean", "webpack"], function(callback) {
   gulp.src('build/**/*.js')
     .pipe(uglify())
     .pipe(gulp.dest(appPath));
@@ -60,7 +55,7 @@ gulp.task("build", ["clean", "webpack", "style"], function(callback) {
 });
 
 var WebpackDevServer = require("webpack-dev-server");
-gulp.task("dev", ["style"], function(callback) {
+gulp.task("dev", function(callback) {
   // modify some webpack config options
 
   webpackConfig.devtool = "eval";
@@ -72,8 +67,9 @@ gulp.task("dev", ["style"], function(callback) {
   })
   .listen(webpackConfig.devServer.port, webpackConfig.devServer.host, function(err) {
     if (err) throw new gutil.PluginError("webpack-dev-server", err);
-    gutil.log("[webpack-dev-server]", "http://" + webpackConfig.devServer.host + ":" + webpackConfig.devServer.port + "/webpack-dev-server" + webpackConfig.output.publicPath + "index.html");
-
-    gulp.watch('src/sass/**/*.scss', ["style"]);
+    gutil.log(
+      "[webpack-dev-server]",
+      "http://" + webpackConfig.devServer.host + ":" + webpackConfig.devServer.port + "/webpack-dev-server" + webpackConfig.output.publicPath + "index.html"
+    );
   });
 });
