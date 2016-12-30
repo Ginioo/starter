@@ -1,7 +1,7 @@
 var gulp = require("gulp");
 var gutil = require("gulp-util");
 var sass = require('gulp-sass');
-var uglify = require('gulp-uglify');
+// var uglify = require('gulp-uglify');
 var del = require('del');
 var webpack = require("webpack");
 var fs = require('fs');
@@ -15,13 +15,14 @@ var appPath = './';
 gulp.task('clean', function(callback) {
   del([
     'build',
-    '.htaccess',
-    'index.css',
-    'bundle.js',
-    'index.html',
-    'app.js',
-    'manifest.js',
-    'vendor.js'
+    // '.htaccess',
+
+    // 'index.css',
+    // 'index.html',
+
+    // 'app.*.js',
+    // 'manifest.*.js',
+    // 'vendor.*.js'
   ]);
   callback();
 });
@@ -39,16 +40,16 @@ gulp.task("webpack", function(callback) {
 });
 
 gulp.task("build", ["clean", "webpack"], function(callback) {
-  gulp.src('build/**/*.js')
-    .pipe(uglify())
-    .pipe(gulp.dest(appPath));
-
-  gulp.src('build/**/*.html')
-    .pipe(gulp.dest(appPath));
+  // gulp.src('build/**/*.js')
+  //   .pipe(uglify())
+  //   .pipe(gulp.dest(appPath));
+  //
+  // gulp.src('build/**/*.html')
+  //   .pipe(gulp.dest(appPath));
 
   const htaccessTemplate = fs.readFileSync(path.join(__dirname, 'templates', '.htaccess')).toString();
   const htaccess = _.template(htaccessTemplate)({REWRITE_BASE: webpackConfig.output.publicPath});
-  fs.writeFile(path.join(__dirname, appPath, '.htaccess'), htaccess);
+  fs.writeFile(path.join(__dirname, 'build', '.htaccess'), htaccess);
 
   gutil.log("[build]", 'successfully');
   callback();
