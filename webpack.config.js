@@ -78,6 +78,7 @@ switch (process.env.npm_lifecycle_event) {
         name: 'vendor',
         entries: ['react', 'react-dom']
       }),
+      parts.extractCSS(),
       parts.setupCSS(PATHS.appStyle),
       parts.setupBabel(),
       parts.devServer({
