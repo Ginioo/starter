@@ -1,5 +1,6 @@
 const webpack = require('webpack');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+let ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 exports.devServer = function(options) {
   return {
@@ -48,6 +49,31 @@ exports.setupCSS = function(paths) {
         }
       ]
     }
+  };
+};
+
+exports.extractCSS = function () {
+  // Extract CSS during build
+  return {
+    module: {
+      loaders: [
+        // We first replace our loaders with a single loader,
+        // provided by the ExtractTextPlugin. We apply two filters to it,
+        // first sass then css. We removed the style one,
+        // as we don’t want to embed styles directly in the page anymore.
+        {
+          test: /\.scss$/,
+          loader: ExtractTextPlugin.extract('css!sass'),
+        }
+      ]
+    },
+    plugins: [
+      // Then, we effectively move the styles into public/style.css,
+      // embedding all the individual compiled chunks into a single file.
+      new ExtractTextPlugin('[name].[chunkhash].css', {
+        allChunks: true
+      })
+    ]
   };
 };
 

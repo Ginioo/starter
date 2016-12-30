@@ -11,7 +11,7 @@ const PATHS = {
   app: path.join(__dirname, 'src', 'index'),
   appStyle: path.join(__dirname, 'src', 'style'),
   build: path.join(__dirname, 'build'),
-  baseHref: '/starter/'
+  baseHref: '' // baseHref: '/starter/'
 };
 
 const common = {
@@ -63,6 +63,7 @@ switch (process.env.npm_lifecycle_event) {
         entries: ['react', 'react-dom']
       }),
       parts.minify(),
+      parts.extractCSS(),
       parts.setupCSS(PATHS.appStyle),
       parts.setupBabel()
     );
