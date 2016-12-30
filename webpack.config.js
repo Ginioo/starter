@@ -56,6 +56,7 @@ switch (process.env.npm_lifecycle_event) {
           chunkFilename: '[chunkhash].js'
         }
       },
+      parts.clean(PATHS.build),
       // parts.setEnvironmentVariable('process.env.NODE_ENV', 'production'),
       parts.extractBundle({
         name: 'vendor',
