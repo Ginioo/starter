@@ -63,6 +63,7 @@ switch (process.env.npm_lifecycle_event) {
         entries: ['react', 'react-dom']
       }),
       parts.minify(),
+      parts.setupJSON(),
       parts.extractCSS(),
       parts.setupCSS(PATHS.appStyle),
       parts.setupBabel()
@@ -78,6 +79,7 @@ switch (process.env.npm_lifecycle_event) {
         name: 'vendor',
         entries: ['react', 'react-dom']
       }),
+      parts.setupJSON(),
       parts.extractCSS(),
       parts.setupCSS(PATHS.appStyle),
       parts.setupBabel(),

@@ -91,6 +91,19 @@ exports.setupBabel = function() {
   };
 };
 
+exports.setupJSON = function() {
+  return {
+    module: {
+      loaders: [
+        {
+          test: /\.json$/,
+          loaders: ['json']
+        }
+      ]
+    }
+  };
+};
+
 exports.setEnvironmentVariable = function (key, value) {
     const env = {};
     env[key] = JSON.stringify(value);
