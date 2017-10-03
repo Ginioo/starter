@@ -11,7 +11,7 @@ const PATHS = {
   app: path.join(__dirname, 'src', 'index'),
   appStyle: path.join(__dirname, 'src', 'style'),
   build: path.join(__dirname, 'build'),
-  baseHref: '' // baseHref: '/starter/'
+  baseHref: '/' // baseHref: '/starter/'
 };
 
 const common = {
@@ -85,7 +85,7 @@ switch (process.env.npm_lifecycle_event) {
       parts.setupBabel(),
       parts.devServer({
         // Customize host/port here if needed
-        host: 'localhost',
+        // host: 'localhost',
         port: 8080
       })
     );
