@@ -65,8 +65,8 @@ switch (process.env.npm_lifecycle_event) {
       parts.minify(),
       parts.setupJSON(),
       parts.extractCSS(),
-      parts.setupCSS(PATHS.appStyle),
-      parts.setupBabel()
+      // parts.setupBabel(),
+      parts.setupCSS(PATHS.appStyle)
     );
     break;
   default:
