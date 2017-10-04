@@ -126,7 +126,7 @@ exports.setEnvironmentVariable = function (key, value) {
 
   return {
     plugin: [
-      new DefinePlugin(env)
+      new webpack.DefinePlugin(env)
     ]
   };
 };

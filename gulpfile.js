@@ -1,14 +1,10 @@
-var gulp = require('gulp');
-var gutil = require('gulp-util');
-var del = require('del');
-var webpack = require('webpack');
-var fs = require('fs');
-var path = require('path');
-var _ = require('lodash');
-
-var webpackConfig = Object.create(require('./webpack.config.js'));
-
-var appPath = './';
+const gulp = require('gulp');
+const gutil = require('gulp-util');
+const del = require('del');
+const webpack = require('webpack');
+const fs = require('fs');
+const path = require('path');
+const _ = require('lodash');
 
 gulp.task('clean', function(callback) {
   del([
@@ -18,8 +14,9 @@ gulp.task('clean', function(callback) {
 });
 
 gulp.task('webpack', function(callback) {
+  const productionConfig = require('./webpack.config.js')('production');
   // run webpack
-  webpack(webpackConfig, function(err, stats) {
+  webpack(productionConfig, function(err, stats) {
     if(err) throw new gutil.PluginError('webpack', err);
     gutil.log('[webpack]', stats.toString({
       // output options
@@ -30,8 +27,9 @@ gulp.task('webpack', function(callback) {
 });
 
 gulp.task('build', ['webpack'], function(callback) {
+  const productionConfig = require('./webpack.config.js')('production');
   const htaccessTemplate = fs.readFileSync(path.join(__dirname, 'templates', '.htaccess')).toString();
-  const htaccess = _.template(htaccessTemplate)({REWRITE_BASE: webpackConfig.output.publicPath});
+  const htaccess = _.template(htaccessTemplate)({REWRITE_BASE: productionConfig.output.publicPath});
   fs.writeFile(path.join(__dirname, 'build', '.htaccess'), htaccess);
 
   gutil.log('[build]', 'successfully');
@@ -40,16 +38,17 @@ gulp.task('build', ['webpack'], function(callback) {
 
 var WebpackDevServer = require('webpack-dev-server');
 gulp.task('dev', function(callback) {
+  const developmentConfig = require('./webpack.config.js')('development');
   // Start a webpack-dev-server
-  new WebpackDevServer(webpack(webpackConfig), {
-   publicPath: webpackConfig.output.publicPath,
-   stats: {colors: true}
+  new WebpackDevServer(webpack(developmentConfig), {
+    publicPath: developmentConfig.output.publicPath,
+    stats: {colors: true}
   })
-  .listen(webpackConfig.devServer.port, webpackConfig.devServer.host, function(err) {
+  .listen(developmentConfig.devServer.port, developmentConfig.devServer.host, function(err) {
     if (err) throw new gutil.PluginError('webpack-dev-server', err);
     gutil.log(
       '[webpack-dev-server]',
-      'http://' + webpackConfig.devServer.host + ':' + webpackConfig.devServer.port + '/webpack-dev-server' + (webpackConfig.output.publicPath ? webpackConfig.output.publicPath : '/') + 'index.html'
+      'http://' + developmentConfig.devServer.host + ':' + developmentConfig.devServer.port + '/webpack-dev-server' + (developmentConfig.output.publicPath ? developmentConfig.output.publicPath : '/') + 'index.html'
     );
   });
 });

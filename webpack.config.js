@@ -3,7 +3,6 @@ const merge = require('webpack-merge');
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-// const pkg = require('./package.json');
 const parts = require('./libs/parts');
 
 const PATHS = {
@@ -14,7 +13,7 @@ const PATHS = {
   baseHref: '' // baseHref: '/starter/'
 };
 
-const common = {
+const commonConfig = {
   // Entry accepts a path or an object of entries.
   // We'll be using the latter form given it's
   // convenient with more complex configurations.
@@ -39,58 +38,60 @@ const common = {
   ]
 };
 
-var config;
+const productionConfig = () => {
+  return merge(
+    commonConfig,
+    {
+      devtool: 'source-map',
+      output: {
+        path: PATHS.build,
+        filename: '[name].[chunkhash].js',
+        // This is used for require.ensure. The setup
+        // will work without but this is useful to set.
+        chunkFilename: '[chunkhash].js'
+      }
+    },
+    parts.minify(),
+    parts.clean(PATHS.build),
+    parts.setupImages(PATHS.appImage),
+    // parts.setEnvironmentVariable('process.env.NODE_ENV', 'production'),
+    parts.extractBundle({
+      name: 'vendor',
+      entries: ['react', 'react-dom']
+    }),
+    parts.setupJSON(),
+    parts.extractCSS(),
+    parts.setupCSS(PATHS.appStyle),
+    parts.setupBabel()
+  );
+};
 
-// Detect how npm is run and branch based on that
-switch (process.env.npm_lifecycle_event) {
-  case 'build':
-    config = merge(
-      common,
-      {
-        devtool: 'source-map',
-        output: {
-          path: PATHS.build,
-          filename: '[name].[chunkhash].js',
-          // This is used for require.ensure. The setup
-          // will work without but this is useful to set.
-          chunkFilename: '[chunkhash].js'
-        }
-      },
-      parts.clean(PATHS.build),
-      parts.setupImages(PATHS.appImage),
-      // parts.setEnvironmentVariable('process.env.NODE_ENV', 'production'),
-      parts.extractBundle({
-        name: 'vendor',
-        entries: ['react', 'react-dom']
-      }),
-      parts.minify(),
-      parts.setupJSON(),
-      parts.extractCSS(),
-      parts.setupCSS(PATHS.appStyle),
-      parts.setupBabel()
-    );
-    break;
-  default:
-    config = merge(
-      common,
-      {
-        devtool: 'eval-source-map'
-      },
-      parts.setupImages(PATHS.appImage),
-      parts.extractBundle({
-        name: 'vendor',
-        entries: ['react', 'react-dom']
-      }),
-      parts.setupJSON(),
-      parts.extractCSS(),
-      parts.setupCSS(PATHS.appStyle),
-      parts.setupBabel(),
-      parts.devServer({
-        // Customize host/port here if needed
-        // host: 'localhost',
-        port: 8080
-      })
-    );
-}
+const developmentConfig = () => {
+  return merge(
+    commonConfig,
+    {
+      devtool: 'eval-source-map'
+    },
+    parts.setupImages(PATHS.appImage),
+    parts.extractBundle({
+      name: 'vendor',
+      entries: ['react', 'react-dom']
+    }),
+    parts.setupJSON(),
+    parts.extractCSS(),
+    parts.setupCSS(PATHS.appStyle),
+    parts.setupBabel(),
+    parts.devServer({
+      // Customize host/port here if needed
+      // host: 'localhost',
+      port: 8080
+    })
+  );
+};
 
-module.exports = config;
+module.exports = (env) => {
+  console.log('current env:', env);
+
+  if (env === 'production') return productionConfig();
+  return developmentConfig();
+};
