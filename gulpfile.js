@@ -40,9 +40,6 @@ gulp.task('build', ['webpack'], function(callback) {
 
 var WebpackDevServer = require('webpack-dev-server');
 gulp.task('dev', function(callback) {
-  // modify some webpack config options
-  webpackConfig.debug = true;
-
   // Start a webpack-dev-server
   new WebpackDevServer(webpack(webpackConfig), {
    publicPath: webpackConfig.output.publicPath,

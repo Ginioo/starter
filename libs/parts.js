@@ -33,6 +33,9 @@ exports.devServer = function (options) {
       // in larger projects. Good default.
       new webpack.HotModuleReplacementPlugin({
         multiStep: true
+      }),
+      new webpack.LoaderOptionsPlugin({
+        debug: true
       })
     ]
   };
@@ -41,7 +44,7 @@ exports.devServer = function (options) {
 exports.setupImages = function (paths) {
   return {
     module: {
-      loaders: [
+      rules: [
         {
           test: /\.(png|jpg|svg)$/,
           loader: "file-loader?name=img-[sha512:hash:base64:7].[ext]",
@@ -55,10 +58,10 @@ exports.setupImages = function (paths) {
 exports.setupCSS = function (paths) {
   return {
     module: {
-      loaders: [
+      rules: [
         {
           test: /\.(scss|css)$/,
-          loaders: ['style', 'css', 'sass'],
+          use: ['style-loader', 'css-loader', 'sass-loader'],
           include: paths
         }
       ]
@@ -70,14 +73,14 @@ exports.extractCSS = function () {
   // Extract CSS during build
   return {
     module: {
-      loaders: [
+      rules: [
         // We first replace our loaders with a single loader,
         // provided by the ExtractTextPlugin. We apply two filters to it,
         // first sass then css. We removed the styles one,
         // as we don’t want to embed styles directly in the page anymore.
         {
           test: /\.(scss|css)$/,
-          loader: ExtractTextPlugin.extract('css!sass'),
+          use: ExtractTextPlugin.extract('css-loader!sass-loader'),
         }
       ]
     },
@@ -94,14 +97,10 @@ exports.extractCSS = function () {
 exports.setupBabel = function () {
   return {
     module: {
-      loaders: [
+      rules: [
         {
           test: /\.js$/,
-          exclude: /node_modules/,
-          loader: 'babel-loader',
-          query: {
-            plugins: ["transform-object-rest-spread", ["import", {"libraryName": "antd"}]]
-          }
+          loader: 'babel-loader'
         }
       ]
     }
@@ -111,10 +110,10 @@ exports.setupBabel = function () {
 exports.setupJSON = function () {
   return {
     module: {
-      loaders: [
+      rules: [
         {
           test: /\.json$/,
-          loaders: ['json']
+          use: ['json']
         }
       ]
     }
