@@ -4,14 +4,15 @@ const validate = require('webpack-validator');
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-const pkg = require('./package.json');
+// const pkg = require('./package.json');
 const parts = require('./libs/parts');
 
 const PATHS = {
   app: path.join(__dirname, 'src', 'index'),
   appStyle: path.join(__dirname, 'src', 'style'),
+  appImage: path.join(__dirname, 'src', 'images'),
   build: path.join(__dirname, 'build'),
-  baseHref: '/' // baseHref: '/starter/'
+  baseHref: '' // baseHref: '/starter/'
 };
 
 const common = {
@@ -28,7 +29,7 @@ const common = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      title: 'Starter',
+      title: 'Hello!',
       baseHref: PATHS.baseHref,
       filename: 'index.html',
       template: 'templates/index.html',
@@ -57,6 +58,7 @@ switch (process.env.npm_lifecycle_event) {
         }
       },
       parts.clean(PATHS.build),
+      parts.setupImages(PATHS.appImage),
       // parts.setEnvironmentVariable('process.env.NODE_ENV', 'production'),
       parts.extractBundle({
         name: 'vendor',
@@ -65,8 +67,8 @@ switch (process.env.npm_lifecycle_event) {
       parts.minify(),
       parts.setupJSON(),
       parts.extractCSS(),
-      // parts.setupBabel(),
-      parts.setupCSS(PATHS.appStyle)
+      parts.setupCSS(PATHS.appStyle),
+      parts.setupBabel()
     );
     break;
   default:
@@ -75,6 +77,7 @@ switch (process.env.npm_lifecycle_event) {
       {
         devtool: 'eval-source-map'
       },
+      parts.setupImages(PATHS.appImage),
       parts.extractBundle({
         name: 'vendor',
         entries: ['react', 'react-dom']

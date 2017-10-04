@@ -52,7 +52,7 @@ gulp.task('dev', function(callback) {
     if (err) throw new gutil.PluginError('webpack-dev-server', err);
     gutil.log(
       '[webpack-dev-server]',
-      'http://' + webpackConfig.devServer.host + ':' + webpackConfig.devServer.port + '/webpack-dev-server' + webpackConfig.output.publicPath + 'index.html'
+      'http://' + webpackConfig.devServer.host + ':' + webpackConfig.devServer.port + '/webpack-dev-server' + (webpackConfig.output.publicPath ? webpackConfig.output.publicPath : '/') + 'index.html'
     );
   });
 });

@@ -2,7 +2,7 @@ const webpack = require('webpack');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 let ExtractTextPlugin = require('extract-text-webpack-plugin');
 
-exports.devServer = function(options) {
+exports.devServer = function (options) {
   return {
     devServer: {
       // Enable history API fallback so HTML5 History API based
@@ -38,12 +38,26 @@ exports.devServer = function(options) {
   };
 };
 
-exports.setupCSS = function(paths) {
+exports.setupImages = function (paths) {
   return {
     module: {
       loaders: [
         {
-          test: /\.scss$/,
+          test: /\.(png|jpg|svg)$/,
+          loader: "file-loader?name=img-[sha512:hash:base64:7].[ext]",
+          include: paths
+        }
+      ],
+    },
+  };
+};
+
+exports.setupCSS = function (paths) {
+  return {
+    module: {
+      loaders: [
+        {
+          test: /\.(scss|css)$/,
           loaders: ['style', 'css', 'sass'],
           include: paths
         }
@@ -59,16 +73,16 @@ exports.extractCSS = function () {
       loaders: [
         // We first replace our loaders with a single loader,
         // provided by the ExtractTextPlugin. We apply two filters to it,
-        // first sass then css. We removed the style one,
+        // first sass then css. We removed the styles one,
         // as we don’t want to embed styles directly in the page anymore.
         {
-          test: /\.scss$/,
+          test: /\.(scss|css)$/,
           loader: ExtractTextPlugin.extract('css!sass'),
         }
       ]
     },
     plugins: [
-      // Then, we effectively move the styles into public/style.css,
+      // Then, we effectively move the styles into public/styles.css,
       // embedding all the individual compiled chunks into a single file.
       new ExtractTextPlugin('[name].[chunkhash].css', {
         allChunks: true
@@ -77,21 +91,24 @@ exports.extractCSS = function () {
   };
 };
 
-exports.setupBabel = function() {
+exports.setupBabel = function () {
   return {
     module: {
       loaders: [
         {
           test: /\.js$/,
           exclude: /node_modules/,
-          loader: 'babel-loader'
+          loader: 'babel-loader',
+          query: {
+            plugins: ["transform-object-rest-spread", ["import", {"libraryName": "antd"}]]
+          }
         }
       ]
     }
   };
 };
 
-exports.setupJSON = function() {
+exports.setupJSON = function () {
   return {
     module: {
       loaders: [
@@ -105,17 +122,17 @@ exports.setupJSON = function() {
 };
 
 exports.setEnvironmentVariable = function (key, value) {
-    const env = {};
-    env[key] = JSON.stringify(value);
+  const env = {};
+  env[key] = JSON.stringify(value);
 
-    return {
-        plugin: [
-            new DefinePlugin(env)
-        ]
-    };
+  return {
+    plugin: [
+      new DefinePlugin(env)
+    ]
+  };
 };
 
-exports.minify = function() {
+exports.minify = function () {
   return {
     plugins: [
       new webpack.optimize.UglifyJsPlugin({
@@ -139,7 +156,7 @@ exports.minify = function() {
           except: ['$'],
 
           // Don't care about IE8
-          screw_ie8 : true,
+          screw_ie8: true,
 
           // Don't mangle function names
           keep_fnames: true
@@ -149,7 +166,7 @@ exports.minify = function() {
   };
 };
 
-exports.extractBundle = function(options) {
+exports.extractBundle = function (options) {
   const entry = {};
   entry[options.name] = options.entries;
 
@@ -166,7 +183,7 @@ exports.extractBundle = function(options) {
   };
 };
 
-exports.clean = function(path) {
+exports.clean = function (path) {
   return {
     plugins: [
       new CleanWebpackPlugin([path], {
