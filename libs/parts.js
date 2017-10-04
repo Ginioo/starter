@@ -29,11 +29,7 @@ exports.devServer = function (options) {
       port: options.port // Defaults to 8080
     },
     plugins: [
-      // Enable multi-pass compilation for enhanced performance
-      // in larger projects. Good default.
-      new webpack.HotModuleReplacementPlugin({
-        multiStep: true
-      }),
+      new webpack.HotModuleReplacementPlugin({}),
       new webpack.LoaderOptionsPlugin({
         debug: true
       })
@@ -100,7 +96,8 @@ exports.setupBabel = function () {
       rules: [
         {
           test: /\.js$/,
-          loader: 'babel-loader'
+          use: 'babel-loader',
+          exclude: /node_modules/
         }
       ]
     }

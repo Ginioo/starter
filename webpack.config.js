@@ -31,7 +31,7 @@ const commonConfig = {
       baseHref: PATHS.baseHref,
       filename: 'index.html',
       template: 'templates/index.html',
-      minify: false,
+      minify: true,
       hash: true,
       cache: true
     })
@@ -75,7 +75,7 @@ const developmentConfig = () => {
     parts.setupImages(PATHS.appImage),
     parts.extractBundle({
       name: 'vendor',
-      entries: ['react', 'react-dom']
+      entries: ['react', 'react-dom', 'lodash']
     }),
     parts.setupJSON(),
     parts.extractCSS(),
