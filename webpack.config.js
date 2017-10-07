@@ -31,7 +31,14 @@ const commonConfig = {
       baseHref: PATHS.baseHref,
       filename: 'index.html',
       template: 'templates/index.html',
-      minify: true,
+      minify: {
+        removeAttributeQuotes: true,
+        collapseWhitespace: true,
+        html5: true,
+        minifyCSS: true,
+        removeComments: true,
+        removeEmptyAttributes: true
+      },
       hash: true,
       cache: true
     })

@@ -96,8 +96,8 @@ exports.setupBabel = function () {
       rules: [
         {
           test: /\.js$/,
-          use: 'babel-loader',
-          exclude: /node_modules/
+          exclude: /node_modules/,
+          loader: 'babel-loader'
         }
       ]
     }
@@ -110,7 +110,7 @@ exports.setupJSON = function () {
       rules: [
         {
           test: /\.json$/,
-          use: ['json']
+          loader: 'json-loader'
         }
       ]
     }
