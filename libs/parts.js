@@ -76,7 +76,13 @@ exports.extractCSS = function () {
         // as we don’t want to embed styles directly in the page anymore.
         {
           test: /\.(scss|css)$/,
-          use: ExtractTextPlugin.extract('css-loader!sass-loader'),
+          use: ExtractTextPlugin.extract({
+            fallback: 'style-loader',
+            use: [
+              {loader: 'css-loader', options: {sourceMap: true}},
+              {loader: 'sass-loader', options: {sourceMap: true}}
+            ]
+          }),
         }
       ]
     },
