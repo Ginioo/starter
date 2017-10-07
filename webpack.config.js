@@ -82,7 +82,7 @@ const developmentConfig = () => {
     parts.setupImages(PATHS.appImage),
     parts.extractBundle({
       name: 'vendor',
-      entries: ['react', 'react-dom', 'lodash']
+      entries: ['react', 'react-dom']
     }),
     parts.setupJSON(),
     parts.extractCSS(),
