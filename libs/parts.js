@@ -2,7 +2,7 @@ const webpack = require('webpack');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 let ExtractTextPlugin = require('extract-text-webpack-plugin');
 
-exports.devServer = function (options) {
+exports.devServer = (options) => {
   return {
     devServer: {
       // Enable history API fallback so HTML5 History API based
@@ -37,7 +37,7 @@ exports.devServer = function (options) {
   };
 };
 
-exports.setupImages = function (paths) {
+exports.setupImages = (paths) => {
   return {
     module: {
       rules: [
@@ -51,7 +51,7 @@ exports.setupImages = function (paths) {
   };
 };
 
-exports.setupCSS = function (paths) {
+exports.setupCSS = (paths) => {
   return {
     module: {
       rules: [
@@ -65,7 +65,7 @@ exports.setupCSS = function (paths) {
   };
 };
 
-exports.extractCSS = function () {
+exports.extractCSS = () => {
   // Extract CSS during build
   return {
     module: {
@@ -96,7 +96,7 @@ exports.extractCSS = function () {
   };
 };
 
-exports.setupBabel = function () {
+exports.setupBabel = () => {
   return {
     module: {
       rules: [
@@ -110,7 +110,7 @@ exports.setupBabel = function () {
   };
 };
 
-exports.setupJSON = function () {
+exports.setupJSON = () => {
   return {
     module: {
       rules: [
@@ -123,7 +123,7 @@ exports.setupJSON = function () {
   };
 };
 
-exports.setEnvironmentVariable = function (key, value) {
+exports.setEnvironmentVariable = (key, value) => {
   const env = {};
   env[key] = JSON.stringify(value);
 
@@ -134,7 +134,7 @@ exports.setEnvironmentVariable = function (key, value) {
   };
 };
 
-exports.minify = function () {
+exports.minify = () => {
   return {
     plugins: [
       new webpack.optimize.UglifyJsPlugin({
@@ -168,7 +168,7 @@ exports.minify = function () {
   };
 };
 
-exports.extractBundle = function (options) {
+exports.extractBundle = (options) => {
   const entry = {};
   entry[options.name] = options.entries;
 
@@ -185,7 +185,7 @@ exports.extractBundle = function (options) {
   };
 };
 
-exports.clean = function (path) {
+exports.clean = (path) => {
   return {
     plugins: [
       new CleanWebpackPlugin([path], {

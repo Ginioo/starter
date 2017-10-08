@@ -6,14 +6,14 @@ const fs = require('fs');
 const path = require('path');
 const _ = require('lodash');
 
-gulp.task('clean', function(callback) {
+gulp.task('clean', (callback) => {
   del([
     'build',
   ]);
   callback();
 });
 
-gulp.task('webpack', function(callback) {
+gulp.task('webpack', (callback) => {
   const productionConfig = require('./webpack.config.js')('production');
   // run webpack
   webpack(productionConfig, function(err, stats) {
@@ -26,7 +26,7 @@ gulp.task('webpack', function(callback) {
   });
 });
 
-gulp.task('build', ['webpack'], function(callback) {
+gulp.task('build', ['webpack'], (callback) => {
   const productionConfig = require('./webpack.config.js')('production');
   const htaccessTemplate = fs.readFileSync(path.join(__dirname, 'templates', '.htaccess')).toString();
   const htaccess = _.template(htaccessTemplate)({REWRITE_BASE: productionConfig.output.publicPath});
@@ -37,18 +37,19 @@ gulp.task('build', ['webpack'], function(callback) {
 });
 
 var WebpackDevServer = require('webpack-dev-server');
-gulp.task('dev', function(callback) {
+gulp.task('dev', (callback) => {
   const developmentConfig = require('./webpack.config.js')('development');
   // Start a webpack-dev-server
   new WebpackDevServer(webpack(developmentConfig), {
     publicPath: developmentConfig.output.publicPath,
     stats: {colors: true}
   })
-  .listen(developmentConfig.devServer.port, developmentConfig.devServer.host, function(err) {
+  .listen(developmentConfig.devServer.port, developmentConfig.devServer.host, (err) => {
     if (err) throw new gutil.PluginError('webpack-dev-server', err);
     gutil.log(
       '[webpack-dev-server]',
       'http://' + developmentConfig.devServer.host + ':' + developmentConfig.devServer.port + '/webpack-dev-server' + (developmentConfig.output.publicPath ? developmentConfig.output.publicPath : '/') + 'index.html'
     );
   });
+  callback();
 });

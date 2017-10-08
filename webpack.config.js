@@ -1,8 +1,6 @@
 const path = require('path');
 const merge = require('webpack-merge');
-
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-
 const parts = require('./libs/parts');
 
 const PATHS = {
@@ -13,7 +11,7 @@ const PATHS = {
   baseHref: '' // baseHref: '/starter/'
 };
 
-const commonConfig = {
+const common = {
   // Entry accepts a path or an object of entries.
   // We'll be using the latter form given it's
   // convenient with more complex configurations.
@@ -47,7 +45,7 @@ const commonConfig = {
 
 const productionConfig = () => {
   return merge(
-    commonConfig,
+    common,
     {
       devtool: 'source-map',
       output: {
@@ -75,7 +73,7 @@ const productionConfig = () => {
 
 const developmentConfig = () => {
   return merge(
-    commonConfig,
+    common,
     {
       devtool: 'eval-source-map'
     },
