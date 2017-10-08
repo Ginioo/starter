@@ -36,7 +36,7 @@ gulp.task('build', ['webpack'], (callback) => {
   callback();
 });
 
-var WebpackDevServer = require('webpack-dev-server');
+const WebpackDevServer = require('webpack-dev-server');
 gulp.task('dev', (callback) => {
   const developmentConfig = require('./webpack.config.js')('development');
   // Start a webpack-dev-server

@@ -2,15 +2,15 @@
   "name": "starter",
   "version": "1.0.1",
   "description": "Starter package",
-  "main": "index.js",
-  "repository": "",
+  "repository": "https://github.com/Ginioo/starter.git",
   "scripts": {
     "start": "gulp dev",
     "build": "gulp build",
     "clean": "gulp clean",
     "deploy": "gh-pages -d build"
   },
-  "author": "Gino",
+  "author": "Gino Wu",
+  "license": "MIT",
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",

@@ -26,7 +26,7 @@ exports.devServer = (options) => {
       // 0.0.0.0 is available to all network devices
       // unlike default `localhost`.
       host: options.host || '0.0.0.0', // Defaults to `localhost`
-      port: options.port // Defaults to 8080
+      port: options.port || 8080       // Defaults to 8080
     },
     plugins: [
       new webpack.HotModuleReplacementPlugin({}),
