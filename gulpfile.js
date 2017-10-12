@@ -5,7 +5,6 @@ const webpack = require('webpack');
 const fs = require('fs');
 const path = require('path');
 const _ = require('lodash');
-const ROOT_PATH = path.dirname();
 
 gulp.task('clean', (callback) => {
     del([
@@ -29,9 +28,9 @@ gulp.task('webpack', (callback) => {
 
 gulp.task('build', ['webpack'], (callback) => {
     const productionConfig = require('./webpack.config.js')('production');
-    const htaccessTemplate = fs.readFileSync(path.join(ROOT_PATH, 'templates', '.htaccess')).toString();
+    const htaccessTemplate = fs.readFileSync(path.join(__dirname, 'templates', '.htaccess')).toString();
     const htaccess = _.template(htaccessTemplate)({REWRITE_BASE: productionConfig.output.publicPath});
-    fs.writeFile(path.join(ROOT_PATH, 'build', '.htaccess'), htaccess);
+    fs.writeFile(path.join(__dirname, 'build', '.htaccess'), htaccess);
 
     gutil.log('[build]', 'successfully');
     callback();

@@ -2,12 +2,11 @@ const path = require('path');
 const merge = require('webpack-merge');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const parts = require('./libs/parts');
-const ROOT_PATH = path.dirname();
 const PATHS = {
-    app: path.join(ROOT_PATH, 'src', 'index'),
-    appStyle: path.join(ROOT_PATH, 'src', 'style'),
-    appImage: path.join(ROOT_PATH, 'src', 'images'),
-    build: path.join(ROOT_PATH, 'build'),
+    app: path.join(__dirname, 'src', 'index'),
+    appStyle: path.join(__dirname, 'src', 'style'),
+    appImage: path.join(__dirname, 'src', 'images'),
+    build: path.join(__dirname, 'build'),
     baseHref: '' // baseHref: '/starter/'
 };
 
